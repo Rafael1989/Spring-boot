@@ -1,26 +1,25 @@
 package br.com.alura.listavip;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @SpringBootApplication
-@Controller
 public class Configuracao {
 
-	@RequestMapping("/")
-	@ResponseBody
-	public String ola() {
-		return "<html>"
-				+ "<body>"
-				+ "<h1 style='color:green;'>Olá mundo<h1>"
-				+ "</body>"
-				+ "</html>";
-	}
-	
 	public static void main(String[] args) {
 		SpringApplication.run(Configuracao.class, args);
+	}
+	
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setUrl("jdbc:mysql://localhost:3306/listavip");
+		dataSource.setUsername("rafael");
+		dataSource.setPassword("1234");
+		return dataSource;
 	}
 }
