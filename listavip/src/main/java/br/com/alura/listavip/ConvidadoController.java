@@ -1,22 +1,20 @@
 package br.com.alura.listavip;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import br.com.alura.enviadorEmail.service.EmailService;
 import br.com.alura.listavip.model.Convidado;
-import br.com.alura.listavip.repository.ConvidadoRepository;
+import br.com.alura.listavip.service.ConvidadoService;
 
 @Controller
 public class ConvidadoController {
 	
 	@Autowired
-	private ConvidadoRepository repository;
-
+	private ConvidadoService service;
+	
 	@RequestMapping("/")
 	public String index() {
 		return "index";
@@ -24,14 +22,15 @@ public class ConvidadoController {
 	
 	@RequestMapping("listaconvidados")
 	public String listaConvidados(Model model) {
-		Iterable<Convidado> convidados = repository.findAll();
+		Iterable<Convidado> convidados = service.obterTodos();
 		model.addAttribute("convidados", convidados);
 		return "listaconvidados";
 	}
 	
 	@RequestMapping("adicionaConvidado")
 	public String adicionaConvidado(Convidado convidado) {
-		repository.save(convidado);
+		service.salvar(convidado);
+		new EmailService().enviar(convidado.getNome(), convidado.getEmail());
 		return "redirect:listaconvidados";
 	}
 	

@@ -38,7 +38,11 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<version>1.5.9.RELEASE</version>
 		</dependency>
-
+		<dependency>
+			<groupId>br.com.alura.enviadorEmail</groupId>
+			<artifactId>enviadorEmail</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 </project>
